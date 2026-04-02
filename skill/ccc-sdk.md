@@ -87,9 +87,12 @@ const addressString = address.toString();
 ## Store Data on Cell
 
 ```typescript
+const data = ccc.bytesFrom("Hello CKB!", "utf8");
+const minCapacity = ccc.fixedPointFrom(String(61 + data.length));
+
 const tx = ccc.Transaction.from({
-  outputs: [{ lock: signer.lock }],
-  outputsData: [ccc.bytesFrom("Hello CKB!", "utf8")],
+  outputs: [{ lock: signer.lock, capacity: minCapacity }],
+  outputsData: [data],
 });
 
 await tx.completeInputsByCapacity(signer);

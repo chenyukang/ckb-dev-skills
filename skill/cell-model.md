@@ -2,7 +2,7 @@
 
 ## Overview
 
-Cell is the smallest and fundamental unit in CKB, analogous to UTXO in Bitcoin but more generalized. Every piece of state on CKB is stored in a Cell.
+A Cell is the smallest fundamental unit in CKB, analogous to a UTXO in Bitcoin but more generalized. Every piece of state on CKB is stored in a Cell.
 
 ## Cell Structure
 
@@ -10,7 +10,7 @@ Cell is the smallest and fundamental unit in CKB, analogous to UTXO in Bitcoin b
 Cell: {
   capacity: HexString;   // Size in shannons (1 CKB = 10^8 shannons)
   lock: Script;           // Controls ownership and access
-  type: Script;           // Controls how the Cell can be used in transactions
+  type: Script | null;    // Optional. Controls how the Cell can be used in transactions
   data: HexString;        // Arbitrary state storage
 }
 ```
@@ -28,6 +28,11 @@ Cell: {
 - A Cell's total size (including `capacity`, `lock`, `type`, and `data` fields) must not exceed its `capacity` value.
 - Minimum capacity: **61 CKBytes** (for a Cell with no type script and no data). Recommended: **62+ CKBytes** to cover transaction fees.
 
+### Type Script
+
+- `type` is optional. Plain CKB Cells usually use `type: null`.
+- Add a Type Script only when the Cell needs custom validation logic (for example, UDTs or application state transitions).
+
 ### Immutability
 
 Cells on-chain are immutable. To "update" a Cell:
@@ -38,7 +43,7 @@ Cells on-chain are immutable. To "update" a Cell:
 ## AI Dev Tips
 
 - When constructing transactions, always verify that each output Cell's total serialized size does not exceed its `capacity` field.
-- Use `ccc.fixedPointFrom("62")` (CCC SDK) to ensure minimum capacity allocation.
+- Size `capacity` from the Cell's serialized contents; `62` CKBytes is only a simple rule of thumb for lock-only Cells with little or no data.
 - Remember: querying "balance" on CKB means summing the `capacity` of all Live Cells owned by an address.
 
 ## Example

@@ -50,9 +50,15 @@ async function transferCKB(
 ```typescript
 async function storeData(signer: ccc.Signer, data: string) {
   const dataBytes = ccc.bytesFrom(data, "utf8");
+  const minCapacity = ccc.fixedPointFrom(String(61 + dataBytes.length));
 
   const tx = ccc.Transaction.from({
-    outputs: [{ lock: (await signer.getRecommendedAddressObj()).script }],
+    outputs: [
+      {
+        lock: (await signer.getRecommendedAddressObj()).script,
+        capacity: minCapacity,
+      },
+    ],
     outputsData: [dataBytes],
   });
 
@@ -68,14 +74,18 @@ To deploy a Script binary on-chain, store it in a Cell's data field:
 
 ```typescript
 async function deployScript(signer: ccc.Signer, scriptBinary: Uint8Array) {
+  const scriptData = ccc.bytesFrom(scriptBinary);
+  const minCapacity = ccc.fixedPointFrom(String(61 + scriptData.length));
+
   const tx = ccc.Transaction.from({
     outputs: [
       {
         lock: (await signer.getRecommendedAddressObj()).script,
+        capacity: minCapacity,
         // Optional: add a type script (e.g., Type ID) for upgradability
       },
     ],
-    outputsData: [ccc.bytesFrom(scriptBinary)],
+    outputsData: [scriptData],
   });
 
   await tx.completeInputsByCapacity(signer);

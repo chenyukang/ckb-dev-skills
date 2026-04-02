@@ -17,7 +17,7 @@ Cycles measure the computational cost of executing a Script. Each VM instruction
 
 - **Block cycle limit** (`max_block_cycles`): The total cycles for all Scripts in a block cannot exceed this limit.
 - **CKB Mainnet MIRANA**: `max_block_cycles = 3,500,000,000`
-- **No per-transaction limit**: Individual transactions can use as many cycles as needed, as long as the block total stays within the limit.
+- **Transaction verification ceiling** (`tx_pool.max_tx_verify_cycles`): Nodes can still reject or refuse to relay transactions whose verification cost is too high, even though consensus itself only caps cycles per block.
 
 ## VM Versions
 
@@ -56,7 +56,7 @@ spawn(code_hash, hash_type, args, bounds, ...) -> exit_code
 
 - Target VM 2 (`data2` hash_type) for new Scripts to leverage all features including Spawn.
 - Monitor cycle consumption during development; use `ckb-debugger` to profile cycle costs.
-- The cycle cost model differs from Ethereum's gas -- there's no per-transaction limit, only a per-block limit.
+- The cycle cost model differs from Ethereum's gas -- consensus caps total cycles per block, and nodes may additionally enforce `tx_pool.max_tx_verify_cycles` for individual transactions.
 - Rust scripts compiled with `--release` and `strip` can significantly reduce both binary size and cycle consumption.
 
 ## References

@@ -12,6 +12,41 @@ SOURCE_DIR="$SCRIPT_DIR/skill"
 # Default to personal installation
 INSTALL_PATH="$HOME/.claude/skills/$SKILL_NAME"
 
+resolve_install_path() {
+    local target="$1"
+    local parent
+    local base
+
+    parent="$(dirname "$target")"
+    base="$(basename "$target")"
+
+    mkdir -p "$parent"
+    parent="$(cd "$parent" && pwd -P)"
+
+    printf '%s/%s\n' "$parent" "$base"
+}
+
+validate_install_path() {
+    local target="$1"
+    local base
+    local cwd
+
+    cwd="$(pwd -P)"
+    base="$(basename "$target")"
+
+    if [[ -z "$target" || "$target" == "/" || "$base" == "." || "$base" == ".." ]]; then
+        echo "Error: Refusing to install into an unsafe path"
+        exit 1
+    fi
+
+    case "$target" in
+        "$HOME"|"$HOME/.claude"|"$HOME/.claude/skills"|"$SCRIPT_DIR"|"$SOURCE_DIR"|"$cwd")
+            echo "Error: Refusing to install into unsafe path '$target'"
+            exit 1
+            ;;
+    esac
+}
+
 # Parse arguments
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -20,6 +55,10 @@ while [[ $# -gt 0 ]]; do
             shift
             ;;
         --path)
+            if [ $# -lt 2 ] || [[ -z "$2" ]] || [[ "$2" == -* ]]; then
+                echo "Error: --path requires a destination path"
+                exit 1
+            fi
             INSTALL_PATH="$2"
             shift 2
             ;;
@@ -44,6 +83,9 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+INSTALL_PATH="$(resolve_install_path "$INSTALL_PATH")"
+validate_install_path "$INSTALL_PATH"
+
 # Check if source directory exists
 if [ ! -d "$SOURCE_DIR" ]; then
     echo "Error: Source directory '$SOURCE_DIR' not found"
@@ -59,6 +101,12 @@ fi
 # Create parent directory if needed
 mkdir -p "$(dirname "$INSTALL_PATH")"
 
+# Refuse to overwrite a non-directory target
+if [ -e "$INSTALL_PATH" ] && [ ! -d "$INSTALL_PATH" ]; then
+    echo "Error: '$INSTALL_PATH' exists and is not a directory"
+    exit 1
+fi
+
 # Check if destination already exists
 if [ -d "$INSTALL_PATH" ]; then
     echo "Warning: '$INSTALL_PATH' already exists"
@@ -68,7 +116,7 @@ if [ -d "$INSTALL_PATH" ]; then
         echo "Installation cancelled"
         exit 0
     fi
-    rm -rf "$INSTALL_PATH"
+    rm -rf -- "$INSTALL_PATH"
 fi
 
 # Copy skill files

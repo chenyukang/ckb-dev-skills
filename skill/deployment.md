@@ -6,11 +6,13 @@ This skill covers deploying Scripts to CKB networks and the key development tool
 
 ## CKB Networks
 
-| Network          | Purpose           | RPC Endpoint                   |
-| ---------------- | ----------------- | ------------------------------ |
-| Mainnet (MIRANA) | Production        | https://mainnet.ckbapp.dev/rpc |
-| Testnet (PUDGE)  | Testing           | https://testnet.ckbapp.dev/rpc |
-| Devnet           | Local development | http://localhost:8114          |
+| Network          | Purpose           | RPC Endpoint                |
+| ---------------- | ----------------- | --------------------------- |
+| Mainnet (MIRANA) | Production        | https://mainnet.ckb.dev/rpc |
+| Testnet (PUDGE)  | Testing           | https://testnet.ckb.dev/rpc |
+| Devnet           | Local development | http://localhost:8114       |
+
+The `ckb.dev` and `ckbapp.dev` RPC domains are valid aliases; this guide uses `ckb.dev` consistently.
 
 ## Testnet Faucet
 
@@ -40,13 +42,17 @@ OffCKB comes with pre-deployed system Scripts and funded accounts for immediate 
 import { ccc } from "@ckb-ccc/shell";
 
 async function deployScript(signer: ccc.Signer, scriptBinary: Uint8Array) {
+  const scriptData = ccc.bytesFrom(scriptBinary);
+  const minCapacity = ccc.fixedPointFrom(String(61 + scriptData.length));
+
   const tx = ccc.Transaction.from({
     outputs: [
       {
         lock: (await signer.getRecommendedAddressObj()).script,
+        capacity: minCapacity,
       },
     ],
-    outputsData: [ccc.bytesFrom(scriptBinary)],
+    outputsData: [scriptData],
   });
 
   await tx.completeInputsByCapacity(signer);
@@ -172,17 +178,17 @@ Common RPC calls:
 
 ```bash
 # Get tip block number
-curl -X POST https://testnet.ckbapp.dev/rpc \
+curl -X POST https://testnet.ckb.dev/rpc \
   -H 'Content-Type: application/json' \
   -d '{"id": 1, "jsonrpc": "2.0", "method": "get_tip_block_number", "params": []}'
 
 # Get live cell
-curl -X POST https://testnet.ckbapp.dev/rpc \
+curl -X POST https://testnet.ckb.dev/rpc \
   -H 'Content-Type: application/json' \
   -d '{"id": 1, "jsonrpc": "2.0", "method": "get_live_cell", "params": [{"tx_hash": "0x...", "index": "0x0"}, true]}'
 
 # Send transaction
-curl -X POST https://testnet.ckbapp.dev/rpc \
+curl -X POST https://testnet.ckb.dev/rpc \
   -H 'Content-Type: application/json' \
   -d '{"id": 1, "jsonrpc": "2.0", "method": "send_transaction", "params": [<tx_json>, "passthrough"]}'
 ```

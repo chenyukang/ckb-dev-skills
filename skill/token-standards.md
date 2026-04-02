@@ -35,7 +35,7 @@ The `args` field contains the owner's lock script hash. Only the owner can issue
 
 ## xUDT (Extensible UDT)
 
-An extension of sUDT with additional features like supply control, pausability, and custom logic ([RFC 0052](https://github.com/nervosnetwork/rfcs/pull/428)).
+An extension of sUDT with additional features like supply control, pausability, and custom logic ([RFC 0052](https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0052-extensible-udt/0052-extensible-udt.md)).
 
 ## Spore DOB (Digital Object)
 
