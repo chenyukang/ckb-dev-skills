@@ -20,12 +20,12 @@ Transaction: {
 
 ### Key Fields
 
-| Field          | Description                                                                                               |
-| -------------- | --------------------------------------------------------------------------------------------------------- |
+| Field          | Description                                                                                                        |
+| -------------- | ------------------------------------------------------------------------------------------------------------------ |
 | `cell_deps`    | References to Cells containing on-chain script code or data needed during execution. These Cells are NOT consumed. |
-| `inputs`       | Live Cells to be consumed. Each references a previous transaction output.                                 |
-| `outputs`      | New Cells to be created. Each specifies capacity, lock, and optional type.                                |
-| `outputs_data` | Data field for each corresponding output Cell (matched by index).                                         |
+| `inputs`       | Live Cells to be consumed. Each references a previous transaction output.                                          |
+| `outputs`      | New Cells to be created. Each specifies capacity, lock, and optional type.                                         |
+| `outputs_data` | Data field for each corresponding output Cell (matched by index).                                                  |
 | `witnesses`    | Proofs (typically signatures) used by on-chain scripts during validation.                                          |
 
 ## Transaction Flow

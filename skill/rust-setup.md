@@ -6,13 +6,13 @@ Rust is the recommended language for CKB on-chain script development due to its 
 
 ## Prerequisites
 
-| Tool                                  | Minimum Version | Purpose                        |
-| ------------------------------------- | --------------- | ------------------------------ |
-| Rust                                  | >= 1.71.1       | Language and compiler          |
-| `riscv64imac-unknown-none-elf` target | -               | RISC-V cross-compilation       |
-| Clang                                 | >= 18           | C compiler for dependencies    |
-| Make                                  | >= 4.3          | Build automation               |
-| cargo-generate                        | >= 0.17.0       | Project scaffolding            |
+| Tool                                  | Minimum Version | Purpose                                 |
+| ------------------------------------- | --------------- | --------------------------------------- |
+| Rust                                  | >= 1.71.1       | Language and compiler                   |
+| `riscv64imac-unknown-none-elf` target | -               | RISC-V cross-compilation                |
+| Clang                                 | >= 18           | C compiler for dependencies             |
+| Make                                  | >= 4.3          | Build automation                        |
+| cargo-generate                        | >= 0.17.0       | Project scaffolding                     |
 | ckb-debugger                          | >= 0.117.0      | on-chain script execution and debugging |
 
 ## Installation Steps
@@ -87,11 +87,11 @@ my-ckb-project/
 
 ## Key Libraries
 
-| Library                                                                  | Purpose                                                      |
-| ------------------------------------------------------------------------ | ------------------------------------------------------------ |
+| Library                                                                  | Purpose                                                               |
+| ------------------------------------------------------------------------ | --------------------------------------------------------------------- |
 | [ckb-std](https://github.com/nervosnetwork/ckb-std)                      | Standard library for CKB on-chain scripts (syscalls, high-level APIs) |
-| [ckb-testtool](https://docs.rs/ckb-testtool/latest/ckb_testtool)         | Testing framework that simulates CKB environment             |
-| [ckb-script-templates](https://github.com/cryptape/ckb-script-templates) | Project templates for cargo-generate                         |
+| [ckb-testtool](https://docs.rs/ckb-testtool/latest/ckb_testtool)         | Testing framework that simulates CKB environment                      |
+| [ckb-script-templates](https://github.com/cryptape/ckb-script-templates) | Project templates for cargo-generate                                  |
 
 ## Important: no_std Requirement
 

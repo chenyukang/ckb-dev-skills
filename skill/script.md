@@ -16,16 +16,16 @@ pub struct Script {
 
 ### Fields Explained
 
-| Field       | Description                                                   |
-| ----------- | ------------------------------------------------------------- |
+| Field       | Description                                                            |
+| ----------- | ---------------------------------------------------------------------- |
 | `code_hash` | Identifies which on-chain script code to load and execute              |
-| `hash_type` | Defines how to interpret `code_hash` when locating code       |
+| `hash_type` | Defines how to interpret `code_hash` when locating code                |
 | `args`      | Custom arguments passed to the on-chain script (e.g., public key hash) |
 
 ### hash_type Values
 
-| Value                    | Name      | Description                                  |
-| ------------------------ | --------- | -------------------------------------------- |
+| Value                    | Name      | Description                                           |
+| ------------------------ | --------- | ----------------------------------------------------- |
 | `data`, `data1`, `data2` | Data Hash | Match the hash of the on-chain script binary directly |
 | `type`                   | Type Hash | Match the hash of a Cell's type on-chain script       |
 
