@@ -2,7 +2,7 @@
 
 ## Overview
 
-This skill covers deploying Scripts to CKB networks and the key development tools in the ecosystem.
+This skill covers deploying on-chain scripts to CKB networks and the key development tools in the ecosystem.
 
 ## CKB Networks
 
@@ -32,9 +32,9 @@ npm install -g @offckb/cli
 offckb node
 ```
 
-OffCKB comes with pre-deployed system Scripts and funded accounts for immediate development.
+OffCKB comes with pre-deployed system on-chain scripts and funded accounts for immediate development.
 
-## Deploying Scripts
+## Deploying on-chain scripts
 
 ### Via CCC SDK (TypeScript)
 
@@ -59,7 +59,7 @@ async function deployScript(signer: ccc.Signer, scriptBinary: Uint8Array) {
   await tx.completeFeeBy(signer);
   const txHash = await signer.sendTransaction(tx);
 
-  // The deployed script's code_hash (data hash) is:
+  // The deployed on-chain script's code_hash (data hash) is:
   // Blake2b-256 hash of the scriptBinary
   return txHash;
 }
@@ -100,16 +100,16 @@ Notes:
 - Use `dep_groups` to bundle frequently-used deps (e.g. omni_lock + secp256k1_data).
 - Enabling Type ID keeps the same reference identity across upgrades.
 
-## Type ID for Upgradable Scripts
+## Type ID for Upgradable on-chain scripts
 
-Type ID is a pattern that allows Script code to be upgraded while keeping the same `code_hash`:
+Type ID is a pattern that allows on-chain script code to be upgraded while keeping the same `code_hash`:
 
-1. Deploy the Script Cell with a special Type Script (Type ID).
-2. Reference the Script using `hash_type: "type"` and `code_hash: <type_id_hash>`.
+1. Deploy the on-chain script Cell with a special type on-chain script (Type ID).
+2. Reference the on-chain script using `hash_type: "type"` and `code_hash: <type_id_hash>`.
 3. To upgrade: consume the old Cell, create a new Cell with updated code but same Type ID.
 
 ```
-# Type ID Script
+# Type ID on-chain script
 type: {
   code_hash: TYPE_ID_CODE_HASH,
   hash_type: "type",
@@ -117,11 +117,11 @@ type: {
 }
 ```
 
-The Type ID Script ensures only one Cell with a given type ID can exist at any time.
+The Type ID on-chain script ensures only one Cell with a given type ID can exist at any time.
 
-## ckb-script-templates: Script Project Scaffolding (recommended)
+## ckb-script-templates: On-Chain Script Project Scaffolding (recommended)
 
-For new script projects, use [ckb-script-templates](https://github.com/cryptape/ckb-script-templates) (cargo-generate templates). It is the current recommended workflow for Rust-based on-chain scripts.
+For new on-chain script projects, use [ckb-script-templates](https://github.com/cryptape/ckb-script-templates) (cargo-generate templates). It is the current recommended workflow for Rust-based on-chain scripts.
 
 ```bash
 cargo install cargo-generate
@@ -220,9 +220,9 @@ table Script {
 }
 ```
 
-## Script Upgrade Workflow
+## On-Chain Script Upgrade Workflow
 
-1. **Initial Deployment**: Deploy Script with Type ID.
+1. **Initial Deployment**: Deploy on-chain script with Type ID.
 2. **Testing**: Test thoroughly on Devnet and Testnet.
 3. **Upgrade**: Consume old Cell, create new Cell with same Type ID but updated binary.
 4. **Verification**: All existing references via `hash_type: "type"` automatically use the new code.
@@ -231,16 +231,16 @@ table Script {
 
 - Use OffCKB for local development to avoid Testnet faucet rate limits.
 - Always deploy and test on Testnet before Mainnet.
-- Use Type ID pattern for any Script that might need future upgrades.
+- Use Type ID pattern for any on-chain script that might need future upgrades.
 - When deploying, record the `tx_hash` and `index` of the deployed Cell -- you'll need it for `cell_deps`.
-- CKB capacity stored in a Script Cell is locked; budget accordingly for deployment costs.
+- CKB capacity stored in an on-chain script Cell is locked; budget accordingly for deployment costs.
 - Use `data2` hash_type for new deployments to target the latest VM version.
 
 ## References
 
 - [CKB Networks](https://docs.nervos.org/docs/getting-started/ckb-networks)
 - [Type ID](https://docs.nervos.org/docs/script/type-id)
-- [Script Upgrade Workflow](https://docs.nervos.org/docs/script/script-upgrade-workflow)
+- [On-chain script upgrade workflow](https://docs.nervos.org/docs/script/script-upgrade-workflow)
 - [SDK & Dev Tools](https://docs.nervos.org/docs/sdk-and-devtool/devtool)
 - [OffCKB](https://github.com/ckb-devrel/offckb)
 - [Molecule Serialization](https://docs.nervos.org/docs/serialization/serialization-molecule-in-ckb)

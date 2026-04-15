@@ -1,8 +1,8 @@
-# Rust Script Development: Environment Setup
+# Rust On-Chain Script Development: Environment Setup
 
 ## Overview
 
-Rust is the recommended language for CKB Script development due to its performance, memory safety, and mature toolchain support for RISC-V targets.
+Rust is the recommended language for CKB on-chain script development due to its performance, memory safety, and mature toolchain support for RISC-V targets.
 
 ## Prerequisites
 
@@ -13,7 +13,7 @@ Rust is the recommended language for CKB Script development due to its performan
 | Clang                                 | >= 18           | C compiler for dependencies    |
 | Make                                  | >= 4.3          | Build automation               |
 | cargo-generate                        | >= 0.17.0       | Project scaffolding            |
-| ckb-debugger                          | >= 0.117.0      | Script execution and debugging |
+| ckb-debugger                          | >= 0.117.0      | on-chain script execution and debugging |
 
 ## Installation Steps
 
@@ -49,7 +49,7 @@ cargo install cargo-generate
 cargo install ckb-debugger
 ```
 
-## Create a New Script Project
+## Create a New On-Chain Script Project
 
 ```bash
 # Generate project from template
@@ -89,13 +89,13 @@ my-ckb-project/
 
 | Library                                                                  | Purpose                                                      |
 | ------------------------------------------------------------------------ | ------------------------------------------------------------ |
-| [ckb-std](https://github.com/nervosnetwork/ckb-std)                      | Standard library for CKB Scripts (syscalls, high-level APIs) |
+| [ckb-std](https://github.com/nervosnetwork/ckb-std)                      | Standard library for CKB on-chain scripts (syscalls, high-level APIs) |
 | [ckb-testtool](https://docs.rs/ckb-testtool/latest/ckb_testtool)         | Testing framework that simulates CKB environment             |
 | [ckb-script-templates](https://github.com/cryptape/ckb-script-templates) | Project templates for cargo-generate                         |
 
 ## Important: no_std Requirement
 
-CKB Scripts must use `#![no_std]` because there is no operating system in CKB-VM. The `ckb-std` crate provides replacements for common functionality:
+CKB on-chain scripts must use `#![no_std]` because there is no operating system in CKB-VM. The `ckb-std` crate provides replacements for common functionality:
 
 ```rust
 #![no_std]
@@ -107,7 +107,7 @@ extern crate alloc;
 // Entry point
 #[no_mangle]
 pub fn program_entry() -> i8 {
-    // Your Script logic here
+    // Your on-chain script logic here
     0 // Return 0 for success
 }
 ```
@@ -124,5 +124,5 @@ pub fn program_entry() -> i8 {
 
 - [Rust Quick Start](https://docs.nervos.org/docs/script/rust/rust-quick-start)
 - [Rust Build](https://docs.nervos.org/docs/script/rust/rust-build)
-- [Program Languages for Script](https://docs.nervos.org/docs/script/program-language-for-script)
+- [Program Languages for on-chain script](https://docs.nervos.org/docs/script/program-language-for-script)
 - [ckb-std GitHub](https://github.com/nervosnetwork/ckb-std)

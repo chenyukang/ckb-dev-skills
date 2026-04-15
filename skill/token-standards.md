@@ -2,7 +2,7 @@
 
 ## Overview
 
-CKB supports various token standards built on the Cell model. Unlike account-based blockchains, tokens on CKB are stored in Cell data and governed by Type Scripts.
+CKB supports various token standards built on the Cell model. Unlike account-based blockchains, tokens on CKB are stored in Cell data and governed by type on-chain scripts.
 
 ## sUDT (Simple User Defined Token)
 
@@ -16,7 +16,7 @@ Each sUDT Cell stores the token amount as a 128-bit little-endian unsigned integ
 Cell.data = <amount: u128 (16 bytes)> [optional extra data]
 ```
 
-### Type Script
+### Type on-chain script
 
 ```
 type: {
@@ -26,12 +26,12 @@ type: {
 }
 ```
 
-The `args` field contains the owner's lock script hash. Only the owner can issue (mint) new tokens. Anyone can transfer existing tokens.
+The `args` field contains the owner's lock on-chain script hash. Only the owner can issue (mint) new tokens. Anyone can transfer existing tokens.
 
 ### Rules
 
-- **Mint**: Only the owner (whose lock script hash matches `args`) can create new sUDT Cells.
-- **Transfer**: Total input sUDT amount >= Total output sUDT amount (for the same type script).
+- **Mint**: Only the owner (whose lock on-chain script hash matches `args`) can create new sUDT Cells.
+- **Transfer**: Total input sUDT amount >= Total output sUDT amount (for the same type on-chain script).
 
 ## xUDT (Extensible UDT)
 
@@ -85,8 +85,8 @@ An extended RGB protocol that uses CKB as a verification layer for Bitcoin L1 as
 
 - When creating UDT transfer transactions, always ensure the total input token amount >= total output token amount for each token type.
 - UDT amounts are stored as 128-bit little-endian integers. Use `ccc.numLeToBytes(amount, 16)` to encode.
-- Each UDT Cell still requires CKB capacity for storage. A typical sUDT Cell needs ~142 CKBytes (lock script + type script + 16 bytes data + capacity field).
-- The sUDT type script's `args` (owner lock hash) determines who can mint. This is a 32-byte Blake2b-256 hash of the owner's lock script.
+- Each UDT Cell still requires CKB capacity for storage. A typical sUDT Cell needs ~142 CKBytes (lock on-chain script + type on-chain script + 16 bytes data + capacity field).
+- The sUDT type on-chain script's `args` (owner lock hash) determines who can mint. This is a 32-byte Blake2b-256 hash of the owner's lock on-chain script.
 
 ## References
 

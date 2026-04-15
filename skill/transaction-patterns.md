@@ -68,9 +68,9 @@ async function storeData(signer: ccc.Signer, data: string) {
 }
 ```
 
-## Deploy Script Code
+## Deploy On-Chain Script Code
 
-To deploy a Script binary on-chain, store it in a Cell's data field:
+To deploy an on-chain script binary on-chain, store it in a Cell's data field:
 
 ```typescript
 async function deployScript(signer: ccc.Signer, scriptBinary: Uint8Array) {
@@ -82,7 +82,7 @@ async function deployScript(signer: ccc.Signer, scriptBinary: Uint8Array) {
       {
         lock: (await signer.getRecommendedAddressObj()).script,
         capacity: minCapacity,
-        // Optional: add a type script (e.g., Type ID) for upgradability
+        // Optional: add a type on-chain script (e.g., Type ID) for upgradability
       },
     ],
     outputsData: [scriptData],
@@ -110,14 +110,14 @@ await tx.completeFeeBy(signer);
 const txHash = await signer.sendTransaction(tx);
 ```
 
-## Transaction with Type Script (UDT Transfer)
+## Transaction with Type On-Chain Script (UDT Transfer)
 
 ```typescript
 const tx = ccc.Transaction.from({
   outputs: [
     {
       lock: recipientLock,
-      type: udtTypeScript, // The UDT type script
+      type: udtTypeScript, // The UDT type on-chain script
       capacity: ccc.fixedPointFrom("142"), // Enough for Cell overhead
     },
   ],
@@ -127,7 +127,7 @@ const tx = ccc.Transaction.from({
   ],
 });
 
-// Add cell_deps for the UDT type script code
+// Add cell_deps for the UDT type on-chain script code
 tx.addCellDeps(udtCellDep);
 
 await tx.completeInputsByCapacity(signer);
@@ -162,7 +162,7 @@ CCC handles this automatically with `completeInputsByCapacity` and `completeFeeB
 ## AI Dev Tips
 
 - **Order matters**: Always call `completeInputsByCapacity` before `completeFeeBy`.
-- **Minimum Cell capacity**: Each output Cell needs at least 61 CKBytes. The actual minimum depends on the Cell's content (lock script size + type script size + data size + 8 bytes for capacity field).
+- **Minimum Cell capacity**: Each output Cell needs at least 61 CKBytes. The actual minimum depends on the Cell's content (lock on-chain script size + type on-chain script size + data size + 8 bytes for capacity field).
 - **outputs_data alignment**: `outputsData[i]` corresponds to `outputs[i]`. If an output has no data, use `"0x"` (empty bytes).
 - CCC automatically handles change Cells -- you don't need to manually create them.
 - For complex transactions, build incrementally: define outputs first, then add cell_deps, then complete inputs and fees.

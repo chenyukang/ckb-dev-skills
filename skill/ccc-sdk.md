@@ -73,13 +73,13 @@ console.log("TX Hash:", txHash);
 ## Working with Addresses
 
 ```typescript
-// Parse address string to Script
+// Parse address string to on-chain script
 const lock = await ccc.Address.fromString(addressString, client);
 
 // Get address from signer
 const addresses = await signer.getAddresses();
 
-// Create address from lock script
+// Create address from lock on-chain script
 const address = ccc.Address.fromScript(lockScript, client);
 const addressString = address.toString();
 ```
@@ -103,7 +103,7 @@ const txHash = await signer.sendTransaction(tx);
 ## Query Cells
 
 ```typescript
-// Collect Cells by lock script
+// Collect Cells by lock on-chain script
 for await (const cell of client.findCellsByLock(lockScript)) {
   console.log("Cell capacity:", cell.cellOutput.capacity);
   console.log("Cell data:", cell.outputData);
@@ -204,7 +204,7 @@ CCC supports connecting to multiple CKB wallets via its connector. The CKB ecosy
 
 ### Omnilock: Universal Lock for Wallet Interop
 
-[Omnilock](https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0042-omnilock/0042-omnilock.md) is a universal Lock Script that supports multiple authentication methods in a single Script:
+[Omnilock](https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0042-omnilock/0042-omnilock.md) is a universal lock on-chain script that supports multiple authentication methods in a single on-chain script:
 
 - secp256k1 (CKB native, Bitcoin, Ethereum)
 - secp256r1 (WebAuthn, passkeys)
