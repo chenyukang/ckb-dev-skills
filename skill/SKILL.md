@@ -98,13 +98,44 @@ Always be explicit about:
 - hash_type selection (`data2` for new, `type` for upgradable via Type ID)
 - Transaction fee = sum(input capacities) - sum(output capacities)
 
-### 4. Add tests
+### 4. Design the on-chain contract before tests or implementation
+
+When producing a solution design, test plan, or implementation plan for a CKB contract, first write a detailed contract design document. Do not jump directly to test cases or code. The contract is the fixed interface that all later transaction construction, tests, client code, and deployment work must follow.
+
+The contract design document must include:
+
+- **Contract type list**: list every custom on-chain script and state whether it is used as a **lock on-chain script** or **type on-chain script**. If it is a lock on-chain script, explicitly define what type on-chain script(s) it requires, allows, or forbids on the protected cells. If it is a type on-chain script, explicitly define what lock on-chain script(s) it requires, allows, or forbids on the protected cells. If there is no restriction on the other script position, say so explicitly. These lock/type pairing rules are part of the contract interface because they determine authorization boundaries, witness layout, and transaction construction.
+- **Protected cell model**: for each relevant cell kind, define its `lock`, optional `type`, `data` layout, capacity requirements, whether the cell is an input, output, or both, and which script validates it.
+- **Args schema**: for every custom on-chain script, specify exact `args` bytes, length, encoding, field order, semantic meaning, allowed values, and examples. Include how `args` are derived and which fields are immutable after deployment or cell creation.
+- **Witness schema**: for every custom on-chain script and every required or allowed lock on-chain script, specify exact witness format and location. Prefer `WitnessArgs` by default, and explicitly state whether payloads live in `WitnessArgs.lock`, `WitnessArgs.input_type`, `WitnessArgs.output_type`, or raw witness bytes. Include byte layout, Molecule schema if used, field order, signing preimage rules, and examples. State which transaction input/output group each witness belongs to.
+- **Execution group rules**: state how CKB groups scripts by `Script` hash, which cells are in each group, and which indexes the script must inspect with syscalls.
+- **Strict execution flow**: step-by-step validation logic in the order the on-chain script executes, including data loading, parsing, signature/hash checks, state transition checks, capacity/token conservation checks, error codes, and failure behavior.
+- **Transaction invariants**: exact requirements on `inputs`, `outputs`, `outputs_data`, `cell_deps`, `header_deps`, `since`, fees, change cells, and script dependencies.
+- **State transition table**: every allowed scenario, required inputs, required outputs, required witnesses, expected success result, and representative failure cases.
+- **Serialization and hashing**: Molecule schemas or fixed binary layouts, endian choices, hash functions, domain separators, and examples of encoded values.
+- **Security notes**: replay protection, authorization boundary, malleability risks, dependency pinning, upgrade assumptions, capacity leakage, and cycle limits.
+
+For each typical scenario, provide a concrete CKB transaction sample. Each sample must include:
+
+- Human-readable purpose and preconditions.
+- `cell_deps` with script code dependencies and `dep_type`.
+- `inputs` grouped by cell kind and script group.
+- `outputs` with `lock`, `type`, capacity, and data.
+- `outputs_data` aligned one-to-one with `outputs`.
+- Witnesses with exact fields and encoded payloads.
+- Fee/change handling.
+- Expected on-chain scripts executed: input locks, input types, output types.
+- Expected result and at least one negative variant for tests.
+
+Typical scenario sets should cover, when relevant: create/issue, update/transfer, consume/destroy, merge/split, authorization failure, malformed args/witness/data, missing `cell_deps`, wrong script group, insufficient capacity, invalid state transition, and replay or duplicate-use attempts.
+
+### 5. Add tests
 
 - On-chain script tests: ckb-testtool with both success and failure cases.
 - Transaction tests: verify cycle consumption is reasonable.
 - Use `context.dump_tx()` to generate ckb-debugger transaction files.
 
-### 5. Deliverables expectations
+### 6. Deliverables expectations
 
 When you implement changes, provide:
 
@@ -112,6 +143,15 @@ When you implement changes, provide:
 - Commands to build (`make build`) and test (`make test`)
 - Cycle consumption estimates where relevant
 - Risk notes for anything touching signatures, token transfers, or capacity management
+
+When you provide a design or test plan, provide:
+
+- Detailed contract design document before implementation details.
+- Explicit lock/type classification for every custom on-chain script.
+- Exact `args` and witness schemas for every custom on-chain script.
+- Strict on-chain execution flow and error/failure behavior.
+- A complete transaction sample set covering every typical scenario.
+- Test matrix derived from the state transition table and transaction samples.
 
 ## Progressive disclosure (read when needed)
 
