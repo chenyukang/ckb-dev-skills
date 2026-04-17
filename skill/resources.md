@@ -2,7 +2,7 @@
 
 ## Core Documentation
 
-- [Nervos CKB Documentation](https://docs.nervos.org/) — Official docs (architecture, Script dev, guides)
+- [Nervos CKB Documentation](https://docs.nervos.org/) — Official docs (architecture, on-chain script dev, guides)
 - [CKB RFCs](https://github.com/nervosnetwork/rfcs) — Protocol specifications and design decisions
 - [CKB Academy](https://academy.ckb.dev/) — Interactive learning platform with courses:
   - [CKB Fundamentals](https://academy.ckb.dev/courses) — Foundational theory
@@ -17,18 +17,18 @@
 - [Construct and Send Your First CKB Transaction](https://blog.cryptape.com/construct-and-send-your-first-ckb-transaction) — Step-by-step tutorial
 - [Cryptape Blog](https://blog.cryptape.com/) — Insights and research on CKB design and development
 
-## Script Development
+## On-Chain Script Development
 
 ### Rust
 
-- [ckb-std](https://github.com/nervosnetwork/ckb-std) — Rust standard library for CKB Scripts (no_std)
-- [ckb-script-templates](https://github.com/cryptape/ckb-script-templates) — Cargo-generate templates for Script projects
-- [ckb-testtool](https://github.com/nervosnetwork/ckb-testtool) — Rust testing framework for CKB Scripts
-- [Simple UDT Example](https://github.com/xcshuan/simple-udt) — Sample sUDT Script implementation in Rust
+- [ckb-std](https://github.com/nervosnetwork/ckb-std) — Rust standard library for CKB on-chain scripts (no_std)
+- [ckb-script-templates](https://github.com/cryptape/ckb-script-templates) — Cargo-generate templates for on-chain script projects
+- [ckb-testtool](https://github.com/nervosnetwork/ckb-testtool) — Rust testing framework for CKB on-chain scripts
+- [Simple UDT Example](https://github.com/xcshuan/simple-udt) — Sample sUDT on-chain script implementation in Rust
 
 ### C
 
-- [ckb-c-stdlib](https://github.com/nervosnetwork/ckb-c-stdlib) — C standard library for CKB Scripts
+- [ckb-c-stdlib](https://github.com/nervosnetwork/ckb-c-stdlib) — C standard library for CKB on-chain scripts
 
 ### JavaScript
 
@@ -36,7 +36,7 @@
 
 ### Lua
 
-- [ckb-lua](https://github.com/nervosnetwork/ckb-lua) — Lua support for CKB Scripts
+- [ckb-lua](https://github.com/nervosnetwork/ckb-lua) — Lua support for CKB on-chain scripts
 
 ### Frameworks
 
@@ -114,12 +114,12 @@
 
 ## Testing & Debugging
 
-- [ckb-debugger](https://github.com/nervosnetwork/ckb-standalone-debugger) — CLI tool for executing and debugging Scripts
+- [ckb-debugger](https://github.com/nervosnetwork/ckb-standalone-debugger) — CLI tool for executing and debugging on-chain scripts
 - [ckb-testtool](https://github.com/nervosnetwork/ckb-testtool) — Simulates CKB environment for Rust tests
 
 ## Local Development & Infrastructure
 
-- [OffCKB](https://github.com/ckb-devrel/offckb) — Local Devnet with pre-deployed system Scripts
+- [OffCKB](https://github.com/ckb-devrel/offckb) — Local Devnet with pre-deployed system on-chain scripts
 - [CKB-CLI](https://github.com/nervosnetwork/ckb-cli) — Command-line interface for CKB node interaction
 - [Testnet Faucet](https://faucet.nervos.org/) — Claim testnet CKB tokens for development
 - [Public JSON-RPC Nodes](https://github.com/nervosnetwork/ckb/wiki/Public-JSON-RPC-nodes) — List of public RPC endpoints

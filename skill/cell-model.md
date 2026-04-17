@@ -26,12 +26,12 @@ Cell: {
 
 - `capacity` serves a dual purpose: it represents both the CKB token amount and the storage limit of the Cell.
 - A Cell's total size (including `capacity`, `lock`, `type`, and `data` fields) must not exceed its `capacity` value.
-- Minimum capacity: **61 CKBytes** (for a Cell with no type script and no data). Recommended: **62+ CKBytes** to cover transaction fees.
+- Minimum capacity: **61 CKBytes** (for a Cell with no type on-chain script and no data). Recommended: **62+ CKBytes** to cover transaction fees.
 
-### Type Script
+### Type on-chain script
 
 - `type` is optional. Plain CKB Cells usually use `type: null`.
-- Add a Type Script only when the Cell needs custom validation logic (for example, UDTs or application state transitions).
+- Add a type on-chain script only when the Cell needs custom validation logic (for example, UDTs or application state transitions).
 
 ### Immutability
 

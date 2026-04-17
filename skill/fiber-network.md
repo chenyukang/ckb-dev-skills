@@ -21,7 +21,7 @@ Fiber Network is a peer-to-peer payment and swap network built on CKB, analogous
 - **Low latency**: Payments complete within your p2p connection latency (e.g. 20ms)
 - **High throughput**: No network consensus required for off-chain transactions
 - **PTLC-based**: Uses Point Time-Locked Contracts (more advanced than HTLC)
-- **Composable**: Works with other CKB Scripts and contracts
+- **Composable**: Works with other CKB on-chain scripts and contracts
 
 ## How It Works
 
@@ -285,7 +285,7 @@ fnn-migrate -p /path/to/my-fnn/fiber/store
 
 ## AI Dev Tips
 
-- Fiber operates at the **application layer** above CKB L1. You don't write CKB Scripts for Fiber — you interact with FNN via JSON-RPC.
+- Fiber operates at the **application layer** above CKB L1. You don't write CKB on-chain scripts for Fiber — you interact with FNN via JSON-RPC.
 - All amounts in Fiber RPC are in **shannons** (1 CKB = 10^8 shannons) encoded as hex strings.
 - `funding_amount` determines the maximum one-directional transfer capacity of a channel.
 - Invoice `payment_preimage` must be a unique 32-byte random hex for each invoice.
