@@ -1,11 +1,11 @@
-# Testing CKB Scripts
+# Testing CKB on-chain scripts
 
 ## Overview
 
-CKB Scripts can be tested using two primary methods:
+CKB on-chain scripts can be tested using two primary methods:
 
 1. **ckb-testtool**: Simulates a complete CKB environment in Rust unit tests.
-2. **ckb-debugger**: Runs Scripts from the command line with transaction data.
+2. **ckb-debugger**: Runs on-chain scripts from the command line with transaction data.
 
 ## Testing with ckb-testtool
 
@@ -33,13 +33,13 @@ fn test_my_script() {
     // 1. Create a test context
     let mut context = Context::default();
 
-    // 2. Deploy the Script binary
+    // 2. Deploy the on-chain script binary
     let contract_bin: Bytes = std::fs::read("../build/release/my-contract")
         .expect("read contract")
         .into();
     let out_point = context.deploy_cell(contract_bin);
 
-    // 3. Build a Script referencing the deployed code
+    // 3. Build an on-chain script referencing the deployed code
     let lock_script = context
         .build_script(&out_point, Bytes::from(vec![42u8]))
         .expect("build script");
@@ -183,7 +183,7 @@ ckb-debugger -f tests/test-vectors/my_test.json
           "lock": { "code_hash": "0x...", "hash_type": "data", "args": "0x" },
           "type": null
         },
-        "data": "0x<script binary hex>",
+        "data": "0x<on-chain script binary hex>",
         "header": null
       }
     ],
@@ -220,7 +220,7 @@ ckb-debugger -f tests/test-vectors/my_test.json
 
 ### Transaction File Macros
 
-Use macros to auto-fill Script binary data:
+Use macros to auto-fill on-chain script binary data:
 
 ```json
 "data": "0x{{ data ../../build/release/my-contract }}",
@@ -232,13 +232,13 @@ Use macros to auto-fill Script binary data:
 
 - **Recommended workflow**: Use `ckb-testtool` for regular testing; use `ckb-debugger` for debugging issues.
 - `ckb-testtool` shares CKB core code, so it closely resembles actual on-chain behavior.
-- Always test both success and failure cases for your Scripts.
+- Always test both success and failure cases for your on-chain scripts.
 - Use `context.dump_tx()` to generate transaction files for `ckb-debugger` instead of creating them manually.
 - Cycle consumption in tests matches real on-chain costs.
 
 ## References
 
-- [Script Testing Guide](https://docs.nervos.org/docs/script/script-testing-guide)
+- [On-chain script Testing Guide](https://docs.nervos.org/docs/script/script-testing-guide)
 - [Rust Quick Start](https://docs.nervos.org/docs/script/rust/rust-quick-start)
 - [Rust Test](https://docs.nervos.org/docs/script/rust/rust-test)
 - [ckb-testtool](https://docs.rs/ckb-testtool/latest/ckb_testtool)
